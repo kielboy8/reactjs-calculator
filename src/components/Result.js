@@ -1,6 +1,6 @@
 import React from 'react';
 import '../App.css';
-import { Row, Col, Card } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 
 const Result = props => {
     return (

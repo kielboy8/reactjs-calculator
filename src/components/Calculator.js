@@ -90,7 +90,9 @@ export default class Calculator extends React.Component {
             // Inverse Button
             else if (button === "1/x") {
                 return {
+                    // eslint-disable-next-line
                     result: eval(1 / prevState.result).toString(),
+                    // eslint-disable-next-line
                     output: eval(1 / prevState.result).toString()
                 }
             }
@@ -115,7 +117,9 @@ export default class Calculator extends React.Component {
             else if (button === "=") {
                 try {
                     return {
+                        // eslint-disable-next-line
                         result: eval(prevState.result).toString(),
+                        // eslint-disable-next-line
                         output: eval(prevState.result).toString()
                     }
                 }
