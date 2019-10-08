@@ -9,3 +9,6 @@ To run this in your local environment simply run:
 or if you use yarn:
 
     yarn start
+
+
+A deployed version of the app can be given upon request.
