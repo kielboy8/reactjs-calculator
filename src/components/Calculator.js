@@ -3,7 +3,7 @@ import '../App.css';
 
 import Result from './Result'
 import Keypad from './Keypad'
-import { Card, CardTitle, CardBody } from 'reactstrap';
+import { Card, CardTitle, CardBody } from 'reactstrap'
 
 export default class Calculator extends React.Component {
     constructor() {
