@@ -17,21 +17,47 @@ export default class Calculator extends React.Component {
 
     onClick = button => {
         this.setState(prevState => {
+
+            // Clear Output Button
             if (button === "CE") {
+                if (prevState.result === prevState.output) {
+                    return {
+                        result: "0",
+                        output: "0"
+                    }
+                }
+                else {
+                    return {
+                        output: "0"
+                    }
+                }
+            }
+
+            // Clear All Button
+            else if (button === "C") {
                 return {
                     result: "0",
                     output: "0"
                 }
             }
 
+            // Backspace Button
             else if (button === "DEL") {
-                if (prevState.output.length <= 1) {
+
+                // If the character you're backspacing is an operation, it just adds a 0 since you can't erase the operation in the Windows 10 Calculator.
+                if (prevState.result.trim().slice(-1) === "%" || prevState.result.trim().slice(-1) === "/" || prevState.result.trim().slice(-1) === "*" || prevState.result.trim().slice(-1) === "-" || prevState.result.trim().slice(-1) === "+") {
                     return {
-                        result: "0",
+                        result: prevState.result + "0"
+                    }
+                }
+                // Check if the character you're backspacing is the last value
+                else if (prevState.output.length <= 1) {
+                    return {
+                        result: prevState.result.trim().replace(/.$/, "0"),
                         output: "0"
                     }
                 }
-                else if (prevState.result === "Invalid equation.") {
+                else if (prevState.result === "Infinity" || prevState.result === "Invalid equation." || prevState.result === "NaN") {
                     return {
                         result: "0",
                         output: "0"
@@ -45,6 +71,15 @@ export default class Calculator extends React.Component {
                 }
             }
 
+            // Squared Button
+            else if (button === "^2") {
+                return {
+                    result: Math.pow(prevState.result, 2).toString(),
+                    output: Math.pow(prevState.result, 2).toString()
+                }
+            }
+
+            // Square Root Button
             else if (button === "sqrt") {
                 return {
                     result: Math.sqrt(prevState.result).toString(),
@@ -52,6 +87,31 @@ export default class Calculator extends React.Component {
                 }
             }
 
+            // Inverse Button
+            else if (button === "1/x") {
+                return {
+                    result: eval(1 / prevState.result).toString(),
+                    output: eval(1 / prevState.result).toString()
+                }
+            }
+
+            // Converts input to negative
+            else if (button === "+/-") {
+                if (prevState.output === "0") {
+                    return {
+                        output: prevState.output,
+                        result: prevState.result
+                    }
+                }
+                else {
+                    return {
+                        output: "-" + prevState.output,
+                        result: prevState.result.replace(prevState.output, "-" + prevState.output)
+                    }
+                }
+            }
+
+            // Equals or Calculate Button
             else if (button === "=") {
                 try {
                     return {
@@ -67,10 +127,17 @@ export default class Calculator extends React.Component {
 
             }
 
+            // Checks if user has clicked a Math operation
             else if (button === "%" || button === "/" || button === "*" || button === "-" || button === "+") {
                 if (prevState.result.trim().slice(-1) === "%" || prevState.result.trim().slice(-1) === "/" || prevState.result.trim().slice(-1) === "*" || prevState.result.trim().slice(-1) === "-" || prevState.result.trim().slice(-1) === "+") {
                     return {
                         result: prevState.result.trim().replace(/.$/, button + " ")
+                    }
+                }
+                else if (prevState.result === "Invalid equation.") {
+                    return {
+                        result: "0",
+                        output: "0"
                     }
                 }
                 else {
@@ -80,11 +147,24 @@ export default class Calculator extends React.Component {
                     }
                 }
             }
-
+            
+            // Checks if user clicked on a number or period
             else {
-                if (prevState.result === "0" && prevState.result === "0") {
+                if (prevState.result === "0" && prevState.output === "0") {
                     return {
                         result: button,
+                        output: button
+                    }
+                }
+                else if ((prevState.result === "Infinity" && prevState.output === "Infinity") || prevState.result === "Invalid equation." || prevState.result === "NaN") {
+                    return {
+                        result: button,
+                        output: button
+                    }
+                }
+                else if (prevState.result.length > 1 && prevState.result.slice(-1) === "0" && prevState.output === "0") {
+                    return {
+                        result: prevState.result.trim().replace(/.$/, button),
                         output: button
                     }
                 }
