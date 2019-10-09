@@ -26,6 +26,11 @@ export default class Calculator extends React.Component {
                         output: "0"
                     }
                 }
+                else if(prevState.result === "Invalid equation.") {
+                    return {
+                        result: "0"
+                    }
+                }
                 else {
                     return {
                         output: "0"
